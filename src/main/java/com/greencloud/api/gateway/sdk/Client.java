@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo;
+package com.greencloud.api.gateway.sdk;
 
-import com.aliyun.api.gateway.demo.util.HttpUtil;
+import com.greencloud.api.gateway.sdk.util.HttpUtil;
 
 /**
  * Client
@@ -34,7 +34,7 @@ public class Client {
     public static Response execute(Request request) throws Exception {
         switch (request.getMethod()) {
             case GET:
-                return HttpUtil.httpGet(request.getHost(), request.getPath(), 
+                return HttpUtil.httpGet(request.getHost(), request.getPath(),
                 		request.getTimeout(), 
                 		request.getHeaders(), 
                 		request.getQuerys(),

@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo;
+package com.greencloud.api.gateway.sdk;
 
-import com.aliyun.api.gateway.demo.enums.Method;
+import com.greencloud.api.gateway.sdk.enums.Method;
 
 import java.util.List;
 import java.util.Map;

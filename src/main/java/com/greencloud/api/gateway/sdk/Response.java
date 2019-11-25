@@ -1,4 +1,4 @@
-package com.aliyun.api.gateway.demo;
+package com.greencloud.api.gateway.sdk;
 
 import java.util.HashMap;
 import java.util.Map;

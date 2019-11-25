@@ -16,12 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.enums;
+package com.greencloud.api.gateway.sdk.constant;
 
 /**
- * Http请求方法
- * Created by lipengfei on 16/3/17.
+ * HTTP Schema常量
  */
-public enum Method {
-    GET, POST_FORM, POST_STRING, POST_BYTES, PUT_FORM, PUT_STRING, PUT_BYTES, DELETE;
+public class HttpSchema {
+    //HTTP
+    public static final String HTTP = "http://";
+    //HTTPS
+    public static final String HTTPS = "https://";
+
 }

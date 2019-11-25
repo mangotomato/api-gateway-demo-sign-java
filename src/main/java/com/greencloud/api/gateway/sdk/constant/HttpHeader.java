@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.constant;
+package com.greencloud.api.gateway.sdk.constant;
 
 /**
  * HTTP头常量

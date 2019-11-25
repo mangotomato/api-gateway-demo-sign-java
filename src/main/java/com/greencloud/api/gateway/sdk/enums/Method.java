@@ -16,18 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.constant;
+package com.greencloud.api.gateway.sdk.enums;
 
 /**
- * HTTP方法常量
+ * Http请求方法
  */
-public class HttpMethod {
-    //GET
-    public static final String GET = "GET";
-    //POST
-    public static final String POST = "POST";
-    //PUT
-    public static final String PUT = "PUT";
-    //DELETE
-    public static final String DELETE = "DELETE";
+public enum Method {
+    GET, POST_FORM, POST_STRING, POST_BYTES, PUT_FORM, PUT_STRING, PUT_BYTES, DELETE;
 }

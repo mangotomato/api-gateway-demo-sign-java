@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.util;
+package com.greencloud.api.gateway.sdk.util;
 
-import com.aliyun.api.gateway.demo.constant.Constants;
+import com.greencloud.api.gateway.sdk.constant.Constants;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;

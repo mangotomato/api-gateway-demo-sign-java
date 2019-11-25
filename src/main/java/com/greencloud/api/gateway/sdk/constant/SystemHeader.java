@@ -16,20 +16,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.constant;
+package com.greencloud.api.gateway.sdk.constant;
 
 /**
  * 系统HTTP头常量
+ * http1.1中header case-insensitive
+ * https://tools.ietf.org/html/rfc7230#section-3.2
  */
 public class SystemHeader {
     //签名Header
-    public static final String X_CA_SIGNATURE = "X-Ca-Signature";
+    public static final String X_GW_SIGNATURE = "X-Gw-Signature";
     //所有参与签名的Header
-    public static final String X_CA_SIGNATURE_HEADERS = "X-Ca-Signature-Headers";
+    public static final String X_GW_SIGNATURE_HEADERS = "X-Gw-Signature-Headers";
     //请求时间戳
-    public static final String X_CA_TIMESTAMP = "X-Ca-Timestamp";
+    public static final String X_GW_TIMESTAMP = "X-Gw-Timestamp";
     //请求放重放Nonce,15分钟内保持唯一,建议使用UUID
-    public static final String X_CA_NONCE = "X-Ca-Nonce";
+    public static final String X_GW_NONCE = "X-Gw-Nonce";
     //APP KEY
-    public static final String X_CA_KEY = "X-Ca-Key";
+    public static final String X_GW_KEY = "X-Gw-Key";
 }

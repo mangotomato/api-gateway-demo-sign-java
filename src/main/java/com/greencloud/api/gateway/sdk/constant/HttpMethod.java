@@ -16,15 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.constant;
+package com.greencloud.api.gateway.sdk.constant;
 
 /**
- * HTTP Schema常量
+ * HTTP方法常量
  */
-public class HttpSchema {
-    //HTTP
-    public static final String HTTP = "http://";
-    //HTTPS
-    public static final String HTTPS = "https://";
-
+public class HttpMethod {
+    //GET
+    public static final String GET = "GET";
+    //POST
+    public static final String POST = "POST";
+    //PUT
+    public static final String PUT = "PUT";
+    //DELETE
+    public static final String DELETE = "DELETE";
 }

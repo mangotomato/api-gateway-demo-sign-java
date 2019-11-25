@@ -16,22 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.aliyun.api.gateway.demo.util;
+package com.greencloud.api.gateway.sdk.util;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
+import com.greencloud.api.gateway.sdk.constant.Constants;
+import com.greencloud.api.gateway.sdk.constant.HttpHeader;
+import com.greencloud.api.gateway.sdk.constant.SystemHeader;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 
-import com.aliyun.api.gateway.demo.constant.Constants;
-import com.aliyun.api.gateway.demo.constant.HttpHeader;
-import com.aliyun.api.gateway.demo.constant.SystemHeader;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
 
 /**
  * 签名工具
@@ -41,8 +36,8 @@ public class SignUtil {
     /**
      * 计算签名
      *
-     * @param secret APP密钥
-     * @param method HttpMethod
+     * @param secret               APP密钥
+     * @param method               HttpMethod
      * @param path
      * @param headers
      * @param querys
@@ -50,11 +45,11 @@ public class SignUtil {
      * @param signHeaderPrefixList 自定义参与签名Header前缀
      * @return 签名后的字符串
      */
-    public static String sign(String secret, String method, String path, 
-    							Map<String, String> headers, 
-    							Map<String, String> querys, 
-    							Map<String, String> bodys, 
-    							List<String> signHeaderPrefixList) {
+    public static String sign(String secret, String method, String path,
+                              Map<String, String> headers,
+                              Map<String, String> querys,
+                              Map<String, String> bodys,
+                              List<String> signHeaderPrefixList) {
         try {
             Mac hmacSha256 = Mac.getInstance(Constants.HMAC_SHA256);
             byte[] keyBytes = secret.getBytes(Constants.ENCODING);
@@ -71,6 +66,7 @@ public class SignUtil {
 
     /**
      * 构建待签名字符串
+     *
      * @param method
      * @param path
      * @param headers
@@ -79,20 +75,20 @@ public class SignUtil {
      * @param signHeaderPrefixList
      * @return
      */
-    private static String buildStringToSign(String method, String path, 
-    										Map<String, String> headers, 
-    										Map<String, String> querys,
-    										Map<String, String> bodys,
+    private static String buildStringToSign(String method, String path,
+                                            Map<String, String> headers,
+                                            Map<String, String> querys,
+                                            Map<String, String> bodys,
                                             List<String> signHeaderPrefixList) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(method.toUpperCase()).append(Constants.LF);
         if (null != headers) {
-        	if (null != headers.get(HttpHeader.HTTP_HEADER_ACCEPT)) {
+            if (null != headers.get(HttpHeader.HTTP_HEADER_ACCEPT)) {
                 sb.append(headers.get(HttpHeader.HTTP_HEADER_ACCEPT));
             }
-        	sb.append(Constants.LF);
-        	if (null != headers.get(HttpHeader.HTTP_HEADER_CONTENT_MD5)) {
+            sb.append(Constants.LF);
+            if (null != headers.get(HttpHeader.HTTP_HEADER_CONTENT_MD5)) {
                 sb.append(headers.get(HttpHeader.HTTP_HEADER_CONTENT_MD5));
             }
             sb.append(Constants.LF);
@@ -107,7 +103,7 @@ public class SignUtil {
         sb.append(Constants.LF);
         sb.append(buildHeaders(headers, signHeaderPrefixList));
         sb.append(buildResource(path, querys, bodys));
-        
+
         return sb.toString();
     }
 
@@ -120,88 +116,98 @@ public class SignUtil {
      * @return 待签名
      */
     private static String buildResource(String path, Map<String, String> querys, Map<String, String> bodys) {
-    	StringBuilder sb = new StringBuilder();
-    	
-    	if (!StringUtils.isBlank(path)) {
-    		sb.append(path);
+        StringBuilder sb = new StringBuilder();
+
+        if (!StringUtils.isBlank(path)) {
+            sb.append(path);
         }
         Map<String, String> sortMap = new TreeMap<String, String>();
         if (null != querys) {
-        	for (Map.Entry<String, String> query : querys.entrySet()) {
-        		if (!StringUtils.isBlank(query.getKey())) {
-        			sortMap.put(query.getKey(), query.getValue());
+            for (Map.Entry<String, String> query : querys.entrySet()) {
+                if (!StringUtils.isBlank(query.getKey())) {
+                    sortMap.put(query.getKey(), query.getValue());
                 }
-        	}
+            }
         }
-        
+
         if (null != bodys) {
-        	for (Map.Entry<String, String> body : bodys.entrySet()) {
-        		if (!StringUtils.isBlank(body.getKey())) {
-        			sortMap.put(body.getKey(), body.getValue());
+            for (Map.Entry<String, String> body : bodys.entrySet()) {
+                if (!StringUtils.isBlank(body.getKey())) {
+                    sortMap.put(body.getKey(), body.getValue());
                 }
-        	}
+            }
         }
-        
+
         StringBuilder sbParam = new StringBuilder();
         for (Map.Entry<String, String> item : sortMap.entrySet()) {
-    		if (!StringUtils.isBlank(item.getKey())) {
-    			if (0 < sbParam.length()) {
-    				sbParam.append(Constants.SPE3);
-    			}
-    			sbParam.append(item.getKey());
-    			if (!StringUtils.isBlank(item.getValue())) {
-    				sbParam.append(Constants.SPE4).append(item.getValue());
-    			}
+            if (!StringUtils.isBlank(item.getKey())) {
+                if (0 < sbParam.length()) {
+                    sbParam.append(Constants.SPE3);
+                }
+                sbParam.append(item.getKey());
+                if (!StringUtils.isBlank(item.getValue())) {
+                    sbParam.append(Constants.SPE4).append(item.getValue());
+                }
             }
-    	}
-        if (0 < sbParam.length()) {
-        	sb.append(Constants.SPE5);
-        	sb.append(sbParam);
         }
-        
+        if (0 < sbParam.length()) {
+            sb.append(Constants.SPE5);
+            sb.append(sbParam);
+        }
+
         return sb.toString();
     }
 
     /**
      * 构建待签名Http头
      *
-     * @param headers 请求中所有的Http头
+     * @param headers              请求中所有的Http头
      * @param signHeaderPrefixList 自定义参与签名Header前缀
      * @return 待签名Http头
      */
     private static String buildHeaders(Map<String, String> headers, List<String> signHeaderPrefixList) {
-    	StringBuilder sb = new StringBuilder();
-    	
-    	if (null != signHeaderPrefixList) {
-    		signHeaderPrefixList.remove(SystemHeader.X_CA_SIGNATURE);
-    		signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_ACCEPT);
-    		signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_CONTENT_MD5);
-    		signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_CONTENT_TYPE);
-    		signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_DATE);
-    		Collections.sort(signHeaderPrefixList);
-    		if (null != headers) {
-    			Map<String, String> sortMap = new TreeMap<String, String>();
-    			sortMap.putAll(headers);
-    			StringBuilder signHeadersStringBuilder = new StringBuilder();
-    			for (Map.Entry<String, String> header : sortMap.entrySet()) {
+
+        StringBuilder sb = new StringBuilder();
+
+        if (null != signHeaderPrefixList) {
+            signHeaderPrefixList.remove(SystemHeader.X_GW_SIGNATURE);
+            signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_ACCEPT);
+            signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_CONTENT_MD5);
+            signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_CONTENT_TYPE);
+            signHeaderPrefixList.remove(HttpHeader.HTTP_HEADER_DATE);
+            Collections.sort(signHeaderPrefixList);
+
+            if (null != headers) {
+                Map<String, String> sortMap = new TreeMap<String, String>();
+                sortMap.putAll(lowercase(headers));
+                StringBuilder signHeadersStringBuilder = new StringBuilder();
+                for (Map.Entry<String, String> header : sortMap.entrySet()) {
                     if (isHeaderToSign(header.getKey(), signHeaderPrefixList)) {
-                    	sb.append(header.getKey());
-                    	sb.append(Constants.SPE2);
+                        sb.append(header.getKey().toLowerCase());
+                        sb.append(Constants.SPE2);
                         if (!StringUtils.isBlank(header.getValue())) {
-                        	sb.append(header.getValue());
+                            sb.append(header.getValue());
                         }
                         sb.append(Constants.LF);
                         if (0 < signHeadersStringBuilder.length()) {
-                        	signHeadersStringBuilder.append(Constants.SPE1);
+                            signHeadersStringBuilder.append(Constants.SPE1);
                         }
-                        signHeadersStringBuilder.append(header.getKey());
+                        signHeadersStringBuilder.append(header.getKey().toLowerCase());
                     }
                 }
-    			headers.put(SystemHeader.X_CA_SIGNATURE_HEADERS, signHeadersStringBuilder.toString());
-    		}
-    	}
-        
+                headers.put(SystemHeader.X_GW_SIGNATURE_HEADERS, signHeadersStringBuilder.toString());
+            }
+        }
+
         return sb.toString();
+    }
+
+    private static Map<String, String> lowercase(Map<String, String> headers) {
+        Map<String, String> lowercaseHeaders = new HashMap<>(headers.size());
+        for (String headerKey : headers.keySet()) {
+            lowercaseHeaders.put(headerKey.toLowerCase(), headers.get(headerKey));
+        }
+        return lowercaseHeaders;
     }
 
     /**
@@ -212,7 +218,8 @@ public class SignUtil {
             return false;
         }
 
-        if (headerName.startsWith(Constants.CA_HEADER_TO_SIGN_PREFIX_SYSTEM)) {
+        if (headerName.startsWith(Constants.GW_HEADER_TO_SIGN_PREFIX_SYSTEM) ||
+                headerName.startsWith(Constants.GW_HEADER_TO_SIGN_PREFIX_SYSTEM.toLowerCase())) {
             return true;
         }
 

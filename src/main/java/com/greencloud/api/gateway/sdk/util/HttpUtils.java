@@ -1,4 +1,4 @@
-package com.aliyun.api.gateway.demo.util;
+package com.greencloud.api.gateway.sdk.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
